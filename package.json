@@ -1,0 +1,29 @@
+{
+  "name": "personality-dev-app",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaiVinay023/personality-dev-app.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaiVinay023/personality-dev-app/issues"
+  },
+  "homepage": "https://github.com/SaiVinay023/personality-dev-app#readme",
+  "description": "",
+  "dependencies": {
+    "bcryptjs": "^3.0.2",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "firebase-admin": "^13.2.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.12.1"
+  }
+}
