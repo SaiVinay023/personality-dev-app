@@ -1,45 +1,160 @@
-### Repository Overview
+# Personality Development App – Backend (MVP Stage)
 
-Based on the retrieved content, here are the key aspects of the repository:
+This repository contains the backend codebase for the Personality Development App. The goal of this app is to help users improve their productivity, manage goals, and receive intelligent suggestions through an AI-integrated full-stack system.
 
-#### Key Dependencies:
-1. **Backend Framework**: The project uses **Express.js**, which is a popular web framework for Node.js.
-2. **Authentication**: The project includes **jsonwebtoken** for token-based authentication and **bcryptjs** for password hashing.
-3. **Database**: It integrates **Mongoose**, which is an Object Data Modeling (ODM) library for MongoDB.
-4. **Environment Management**: The project uses **dotenv** for managing environment variables.
-5. **Firebase Integration**: Firebase services are included, such as:
-   - Authentication (`@firebase/auth`)
-   - Firestore (`@firebase/firestore`)
-   - Realtime Database (`@firebase/database`)
-   - Cloud Functions (`@firebase/functions`)
+---
 
-#### Instructions for Setup:
-1. **Install Dependencies**:
-   ```bash
-   npm install
-   ```
-   This will install all required packages, as specified in `package-lock.json`.
+## 🚀 Tech Stack (Backend MVP)
 
-2. **Environment Setup**:
-   - Create a `.env` file in the root directory.
-   - Add necessary environment variables (e.g., `DATABASE_URL`, `JWT_SECRET`, `FIREBASE_CONFIG`).
+| Layer        | Technology                  |
+|--------------|-----------------------------|
+| Runtime      | Node.js + Express.js        |
+| Authentication | Firebase Authentication + JWT |
+| Database     | MongoDB Atlas               |
+| Middleware   | Firebase Admin SDK          |
+| Deployment   | Local (Docker & AWS planned)|
+| DevOps       | GitHub Actions (coming soon)|
 
-3. **Start the Application**:
-   - For development:
-     ```bash
-     npm start
-     ```
-   - For running production builds, ensure the environment is set to `production`.
+---
 
-4. **Testing**:
-   - If tests are defined, they can usually be run using:
-     ```bash
-     npm test
-     ```
+## ✅ Features Implemented So Far
 
-#### Missing Backend Details:
-I was unable to retrieve further details about the `backend/` directory. This could contain specific implementations for routes, controllers, or services.
+### 1. User Registration
+- Auth via Firebase (Email/Password)
+- Firebase UID is saved in MongoDB with name and email
 
-#### Next Steps:
-- If you require further details about a specific file or functionality, let me know.
-- Ensure the `.env` file is properly configured for Firebase and MongoDB integration.
+**Endpoint:** `POST /api/auth/signup`  
+```json
+{
+  "email": "testuser@example.com",
+  "password": "password123",
+  "name": "Test User"
+}
+```
+
+---
+
+### 2. User Login
+- Client logs in via Firebase and gets an **ID Token**
+- Client sends the ID Token to backend
+- Backend verifies token, returns a custom JWT
+
+**Endpoint:** `POST /api/auth/login`  
+```json
+{
+  "token": "FIREBASE_ID_TOKEN"
+}
+```
+
+**Response:**
+```json
+{
+  "message": "Login successful",
+  "jwtToken": "JWT_TOKEN",
+  "user": {
+    "_id": "...",
+    "firebaseUID": "...",
+    "email": "testuser@example.com",
+    "name": "Test User"
+  }
+}
+```
+
+---
+
+### 3. Protected Routes via JWT
+- Authenticated users can access secured endpoints
+- Token is validated using middleware
+
+**Endpoint:** `GET /api/users/profile`  
+**Headers:**
+```
+Authorization: Bearer YOUR_JWT_TOKEN
+```
+
+**Response:**
+```json
+{
+  "message": "Welcome to your profile",
+  "user": {
+    "id": "...",
+    "email": "testuser@example.com"
+  }
+}
+```
+
+---
+
+## 📁 Project Structure
+
+```
+backend/
+├── config/
+│   ├── db.js
+│   ├── firebase.js
+│   └── firebaseServiceAccount.json
+├── controllers/
+│   └── authController.js
+├── middleware/
+│   └── authMiddleware.js
+├── models/
+│   └── User.js
+├── routes/
+│   ├── authRoutes.js
+│   └── userRoutes.js
+├── server.js
+├── .env
+```
+
+---
+
+## ⚙️ Environment Setup
+
+1. Create a `.env` file:
+```env
+PORT=5000
+MONGO_URI=your_mongodb_connection_string
+JWT_SECRET=your_jwt_secret
+```
+
+2. Install dependencies:
+```bash
+npm install
+```
+
+3. Run the server:
+```bash
+node server.js
+```
+
+---
+
+## 🔐 Token Flow Simplified
+
+| Step        | Token Type     | Purpose                                 |
+|-------------|----------------|-----------------------------------------|
+| Firebase Auth | ID Token      | Auth token from Firebase (frontend)     |
+| Node.js      | JWT Token      | Session token issued by backend         |
+| MongoDB      | Stores Firebase UID | Used to track user across services |
+
+---
+
+## ⏭️ Next Steps
+
+- [ ] React Native frontend setup
+- [ ] Firebase login integration on mobile
+- [ ] Add Docker support
+- [ ] Set up GitHub Actions for CI/CD
+- [ ] Build core features: tasks, goals, progress
+
+---
+
+## 📄 License
+
+This project is under active development. Feel free to fork and contribute.
+
+---
+
+## 📬 Contact
+
+Built by [Sai Vinay](https://github.com/SaiVinay023)
